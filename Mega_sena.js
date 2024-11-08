@@ -1,23 +1,39 @@
-function gerarNumerosAleatorios(qtdNumeros, maxNumero) {
+function gerarAleatorios(qtd) {
     
-    const numerosPossiveis = Array.from({ length: maxNumero }, (_, i) => i + 1);
+    if (qtd < 6 || qtd > 100) {
+        console.error("A quantidade deve estar entre 6 e 100.");
+        return;
+    }
+
+    var vetor = new Set(); 
+    var tentativas = 0; 
+    var totalGerados = 0; 
+
     
+    var inicio = performance.now();
+
     
-    for (let i = numerosPossiveis.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [numerosPossiveis[i], numerosPossiveis[j]] = [numerosPossiveis[j], numerosPossiveis[i]]; // Troca os elementos
+    while (vetor.size < qtd) {
+        var aleatorio = Math.floor(Math.random() * 100 + 1); 
+        vetor.add(aleatorio);
+        tentativas++; 
+        totalGerados++; 
     }
 
     
-    const numerosGerados = numerosPossiveis.slice(0, qtdNumeros);
+    var numerosGerados = Array.from(vetor);
 
-    return {
-        numeros: numerosGerados,
-        tentativas: 1 
-    };
+    // Marca o tempo de fim
+    var fim = performance.now();
+    var tempoExecucao = fim - inicio; 
+
+    
+    console.log("Tentativas:", tentativas);
+    console.log("Total de números gerados:", totalGerados);
+    console.log("Números gerados:", numerosGerados);
+    console.log("Números repetidos:", totalGerados - tentativas);
+    console.log("Tempo de execução: " + tempoExecucao.toFixed(2) + " milissegundos");
 }
 
-// Exemplo para uso //
-const resultado = gerarNumerosAleatorios(6, 60); 
-console.log(`Números gerados: ${resultado.numeros}`);
-console.log(`Tentativas realizadas: ${resultado.tentativas}`);
+
+gerarAleatorios(30);
